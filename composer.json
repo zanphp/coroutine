@@ -2,12 +2,20 @@
   "name": "zanphp/coroutine",
   "require": {
     "php": ">=5.6",
-    "zanphp/contracts": "dev-master"
+    "zanphp/exception": "dev-master"
   },
   "autoload": {
     "psr-4": {
+      "Zan\\Framework\\Utilities\\DesignPattern\\": "src/Coroutine/DesignPattern",
+      "Zan\\Framework\\Foundation\\Contract\\": "src/Coroutine/Contract",
+      "Zan\\Framework\\Foundation\\Exception\\": "src/Coroutine/Exception",
+      "Zan\\Framework\\Foundation\\Coroutine\\": "src/Coroutine",
+      "Zan\\Framework\\Network\\Server\\Timer\\": "src/Timer",
       "ZanPHP\\Coroutine\\": "src/"
-    }
+    },
+    "files": [
+      "src/Coroutine/Command/Task.php"
+    ]
   },
   "extra": {
     "branch-alias": {
