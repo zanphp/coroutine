@@ -6,14 +6,13 @@
   },
   "autoload": {
     "psr-4": {
-      "Zan\\Framework\\Utilities\\DesignPattern\\": "src/Coroutine/DesignPattern",
-      "Zan\\Framework\\Foundation\\Contract\\": "src/Coroutine/Contract",
-      "Zan\\Framework\\Foundation\\Exception\\": "src/Coroutine/Exception",
-      "Zan\\Framework\\Foundation\\Coroutine\\": "src/Coroutine",
-      "ZanPHP\\Coroutine\\": "src/"
+      "Zan\\Framework\\Utilities\\DesignPattern\\": "src/DesignPattern",
+      "Zan\\Framework\\Foundation\\Contract\\": "src/Contract",
+      "Zan\\Framework\\Foundation\\Exception\\": "src/Exception",
+      "Zan\\Framework\\Foundation\\Coroutine\\": "src"
     },
     "files": [
-      "src/Coroutine/Command/Task.php"
+      "src/Command/Task.php"
     ]
   },
   "extra": {
