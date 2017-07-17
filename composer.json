@@ -10,7 +10,6 @@
       "Zan\\Framework\\Foundation\\Contract\\": "src/Coroutine/Contract",
       "Zan\\Framework\\Foundation\\Exception\\": "src/Coroutine/Exception",
       "Zan\\Framework\\Foundation\\Coroutine\\": "src/Coroutine",
-      "Zan\\Framework\\Network\\Server\\Timer\\": "src/Timer",
       "ZanPHP\\Coroutine\\": "src/"
     },
     "files": [
