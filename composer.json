@@ -6,7 +6,7 @@
   },
   "autoload": {
     "psr-4": {
-      "ZanPhp\\Coroutine\\": "src"
+      "ZanPHP\\Coroutine\\": "src"
     },
     "files": [
       "src/Command/Task.php"
