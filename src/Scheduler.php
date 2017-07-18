@@ -1,9 +1,8 @@
 <?php
 
-namespace ZanPHP\Coroutine;
+namespace Zan\Framework\Foundation\Coroutine;
 
-
-use ZanPHP\Coroutine\Contract\Async;
+use Zan\Framework\Foundation\Contract\Async;
 
 class Scheduler
 {

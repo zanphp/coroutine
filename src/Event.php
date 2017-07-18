@@ -1,7 +1,5 @@
 <?php
-
-namespace ZanPHP\Coroutine;
-
+namespace Zan\Framework\Foundation\Coroutine;
 
 class Event
 {
@@ -38,7 +36,7 @@ class Event
 
     public function once($evtName, callable $callback)
     {
-        $this->bind($evtName, $callback, Event::ONCE_EVENT);
+        return $this->bind($evtName, $callback, Event::ONCE_EVENT);
     }
 
     public function bind($evtName, callable $callback, $evtType=Event::NORMAL_EVENT)
