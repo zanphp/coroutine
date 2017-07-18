@@ -6,7 +6,10 @@
   },
   "autoload": {
     "psr-4": {
-      "ZanPhp\\Coroutine\\": "src"
+      "Zan\\Framework\\Utilities\\DesignPattern\\": "src/DesignPattern",
+      "Zan\\Framework\\Foundation\\Contract\\": "src/Contract",
+      "Zan\\Framework\\Foundation\\Exception\\": "src/Exception",
+      "Zan\\Framework\\Foundation\\Coroutine\\": "src"
     },
     "files": [
       "src/Command/Task.php"

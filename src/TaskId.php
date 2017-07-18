@@ -1,6 +1,7 @@
 <?php
 
-namespace ZanPHP\Coroutine;
+namespace Zan\Framework\Foundation\Coroutine;
+
 
 class TaskId
 {
