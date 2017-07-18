@@ -1,8 +1,7 @@
 <?php
 
-namespace Zan\Framework\Foundation\Coroutine;
+namespace ZanPHP\Coroutine;
 
-use Zan\Framework\Utilities\DesignPattern\Context;
 
 class Task
 {
