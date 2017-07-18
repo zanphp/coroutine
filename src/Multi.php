@@ -1,6 +1,6 @@
 <?php
 
-namespace Zan\Framework\Foundation\Coroutine;
+namespace ZanPHP\Coroutine;
 
 
 class Multi
