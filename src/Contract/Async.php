@@ -1,6 +1,7 @@
 <?php
 
-namespace ZanPHP\Coroutine\Contract;
+namespace Zan\Framework\Foundation\Contract;
+
 
 interface Async
 {
