@@ -1,8 +1,7 @@
 <?php
 
-namespace Zan\Framework\Utilities\DesignPattern;
+namespace ZanPHP\Coroutine;
 
-use Zan\Framework\Foundation\Coroutine\Event;
 
 class Context
 {

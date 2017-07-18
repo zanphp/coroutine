@@ -1,10 +1,8 @@
 <?php
 
-namespace Zan\Framework\Foundation\Coroutine;
+namespace ZanPHP\Coroutine;
 
-use Zan\Framework\Foundation\Exception\ParallelException;
-use Zan\Framework\Foundation\Exception\System\InvalidArgumentException;
-use Zan\Framework\Utilities\DesignPattern\Context;
+use ZanPHP\Coroutine\Exception\ParallelException;
 
 class Parallel
 {
@@ -39,7 +37,7 @@ class Parallel
 
         foreach($coroutines as $key => $coroutine) {
             if ($coroutine instanceof SysCall) {
-                throw new InvalidArgumentException('can not run syscall in parallel');
+                throw new \InvalidArgumentException('can not run syscall in parallel');
             }
             
             if(!($coroutine instanceof \Generator)) {
