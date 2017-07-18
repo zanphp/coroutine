@@ -1,6 +1,6 @@
 <?php
 
-namespace ZanPHP\Coroutine;
+namespace Zan\Framework\Foundation\Coroutine;
 
 
 class Signal
@@ -14,22 +14,6 @@ class Signal
     const TASK_DONE         = 7;
 
     public static function isSignal($signal) {
-        if(!$signal) {
-            return false;
-        }
 
-        if (!is_int($signal)) {
-            return false;
-        }
-
-        if($signal < 1 ) {
-            return false;
-        }
-
-        if($signal > 7) {
-            return false;
-        }
-
-        return true;
     }
 }
