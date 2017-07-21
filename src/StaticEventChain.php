@@ -1,8 +1,8 @@
 <?php
 
-namespace ZanPHP\Coroutine\Concurrent;
+namespace ZanPHP\Coroutine;
 
-class EventChain
+class StaticEventChain
 {
     private static $beforeMap = [];
     private static $afterMap = [];
@@ -93,7 +93,7 @@ class EventChain
         }
 
         self::clearBeforeEventBind($afterEvt);
-        Event::fire($afterEvt);
+        StaticEvent::fire($afterEvt);
     }
 
     private static function fireBeforeEvent($beforeEvt, $afterEvt)

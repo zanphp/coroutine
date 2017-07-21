@@ -1,8 +1,8 @@
 <?php
 
-namespace ZanPHP\Coroutine\Concurrent;
+namespace ZanPHP\Coroutine;
 
-class Event
+class StaticEvent
 {
     private static $evtMap = [];
 
@@ -12,7 +12,7 @@ class Event
     public static function clear()
     {
         self::$evtMap = [];
-        EventChain::clear();
+        StaticEventChain::clear();
     }
 
     public static function register($evtName)
@@ -35,7 +35,7 @@ class Event
 
         self::$evtMap[$evtName][] = [
             'callback' => $callback,
-            'evtType' => Event::ONCE_EVENT,
+            'evtType' => static::ONCE_EVENT,
         ];
     }
 
@@ -45,7 +45,7 @@ class Event
 
         self::$evtMap[$evtName][] = [
             'callback' => $callback,
-            'evtType' => Event::NORMAL_EVENT,
+            'evtType' => static::NORMAL_EVENT,
         ];
     }
 
@@ -71,7 +71,7 @@ class Event
             self::fireEvents($evtName, $args, $loop);
         }
 
-        EventChain::fireEventChain($evtName);
+        StaticEventChain::fireEventChain($evtName);
     }
 
     private static function fireEvents($evtName, $args=null, $loop=true)
@@ -80,7 +80,7 @@ class Event
             $callback = $evt['callback'];
             $evtType = $evt['evtType'];
 
-            if (Event::ONCE_EVENT === $evtType) {
+            if (static::ONCE_EVENT === $evtType) {
                 unset(self::$evtMap[$evtName][$key]);
             }
             call_user_func($callback, $args);

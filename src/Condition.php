@@ -1,6 +1,6 @@
 <?php
 
-namespace ZanPHP\Coroutine\Concurrent;
+namespace ZanPHP\Coroutine;
 
 use ZanPHP\Coroutine\Contract\Async;
 use ZanPHP\Coroutine\Exception\ConditionException;
@@ -19,7 +19,7 @@ class Condition implements Async
             $this->timerSet = true;
             Timer::after($timeout, [$this, "onTimeout"], $this->getConditionTimeoutJobId());
         }
-        Event::bind($evtName, [$this, "onEvent"]);
+        StaticEvent::bind($evtName, [$this, "onEvent"]);
         $this->evtName = $evtName;
         $this->waitN = $waitN;
     }
@@ -33,19 +33,19 @@ class Condition implements Async
             if (--$this->waitN <= 0) {
                 call_user_func($this->taskCallback, true);
                 $this->taskCallback = null;
-                Event::unregister($this->evtName);
+                StaticEvent::unregister($this->evtName);
             }
         }
     }
 
     public static function wakeUp($evtName)
     {
-        Event::fire($evtName);
+        StaticEvent::fire($evtName);
     }
 
     public function onTimeout()
     {
-        Event::unbind($this->evtName, [$this, 'onEvent']);
+        StaticEvent::unbind($this->evtName, [$this, 'onEvent']);
         if ($this->taskCallback) {
             call_user_func($this->taskCallback, null, new ConditionException("condition {$this->evtName} timeout"));
             $this->taskCallback = null;
