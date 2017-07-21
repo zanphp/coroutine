@@ -184,7 +184,7 @@ class Scheduler
         if ($status === Signal::TASK_KILLED || $status === Signal::TASK_DONE) {
             // 兼容PHP7 & PHP5
             if ($t instanceof \Throwable || $t instanceof \Exception) {
-                sys_error("Uncaught Exception");
+                sys_echo("Uncaught Exception");
                 echo_exception($t);
             }
             return true;
