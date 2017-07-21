@@ -14,8 +14,6 @@ return [
     \ZanPHP\Coroutine\SysCall::class => "\\Zan\\Framework\\Foundation\\Coroutine\\SysCall",
     \ZanPHP\Coroutine\Task::class => "\\Zan\\Framework\\Foundation\\Coroutine\\Task",
     \ZanPHP\Coroutine\TaskId::class => "\\Zan\\Framework\\Foundation\\Coroutine\\TaskId",
-    \ZanPHP\Coroutine\Concurrent\Condition::class => "\\Zan\\Framework\\Foundation\\Core\\Condition",
-    \ZanPHP\Coroutine\Concurrent\Event::class => "\\Zan\\Framework\\Foundation\\Core\\Event",
-    \ZanPHP\Coroutine\Concurrent\EventChain::class => "\\Zan\\Framework\\Foundation\\Core\\EventChain",
+
     \ZanPHP\Coroutine\Exception\ConditionException::class => "\\Zan\\Framework\\Foundation\\Exception\\ConditionException",
 ];
