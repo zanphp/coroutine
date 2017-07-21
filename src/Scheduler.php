@@ -51,6 +51,10 @@ class Scheduler
 
     public function throwException($e, $isFirstCall = false, $isAsync = false)
     {
+        if ($this->isTaskInvalid($e)) {
+            return;
+        }
+
         if ($this->isStackEmpty()) {
             $parent = $this->task->getParentTask();
             if (null !== $parent && $parent instanceof Task) {
@@ -68,6 +72,7 @@ class Scheduler
                 $coroutine = $this->stack->pop();
             }
 
+
             $this->task->setCoroutine($coroutine);
             $coroutine->throw($e);
 
@@ -83,17 +88,14 @@ class Scheduler
 
     public function asyncCallback($response, $exception = null)
     {
+        if ($this->isTaskInvalid($exception)) {
+            return;
+        }
+
         // 兼容PHP7 & PHP5
         if ($exception instanceof \Throwable || $exception instanceof \Exception) {
             $this->throwException($exception, true, true);
-
-            if (Signal::TASK_DONE == $this->task->getStatus()) {
-                return ;
-            }
         } else {
-            if (Signal::TASK_DONE == $this->task->getStatus()) {
-                return ;
-            }
             $this->task->send($response);
             $this->task->run();
         }
@@ -174,5 +176,20 @@ class Scheduler
         }
 
         return Signal::TASK_DONE;
+    }
+
+    private function isTaskInvalid($t)
+    {
+        $status = $this->task->getStatus();
+        if ($status === Signal::TASK_KILLED || $status === Signal::TASK_DONE) {
+            // 兼容PHP7 & PHP5
+            if ($t instanceof \Throwable || $t instanceof \Exception) {
+                sys_error("Uncaught Exception");
+                echo_exception($t);
+            }
+            return true;
+        }
+
+        return false;
     }
 }

@@ -10,7 +10,6 @@ class Parallel
 {
     public function __construct(Task $task)
     {
-        $this->task = $task;
     }
 
     public function call($coroutines, &$fetchCtx = [])
