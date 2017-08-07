@@ -98,10 +98,8 @@ class Parallel
         } catch (\Throwable $r) {
             $r = t2ex($r);
             $this->exceptions[$key] = $r;
-            echo_exception($r);
         } catch (\Exception $r) {
             $this->exceptions[$key] = $r;
-            echo_exception($r);
         }
 
         foreach ($this->fetchCtx as $ctxKey) {
