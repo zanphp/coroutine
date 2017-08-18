@@ -6,6 +6,7 @@ use Zan\Framework\Foundation\Coroutine\Signal;
 use Zan\Framework\Foundation\Coroutine\SysCall;
 use Zan\Framework\Foundation\Coroutine\Task;
 use Zan\Framework\Network\Server\Timer\Timer;
+use ZanPHP\Coroutine\CallCC;
 
 function taskSleep($ms)
 {
@@ -146,4 +147,9 @@ function async(callable $callback)
 
         return Signal::TASK_CONTINUE;
     });
+}
+
+function callcc(callable $fun)
+{
+    new CallCC($fun);
 }
