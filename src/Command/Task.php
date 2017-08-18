@@ -151,5 +151,5 @@ function async(callable $callback)
 
 function callcc(callable $fun)
 {
-    new CallCC($fun);
+    return new CallCC($fun);
 }
