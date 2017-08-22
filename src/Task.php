@@ -16,6 +16,10 @@ class Task
 
     public static function execute($coroutine, Context $context = null, $taskId = 0, Task $parentTask = null)
     {
+        if (is_callable($coroutine)) {
+            return static::execute($coroutine(), $context, $taskId, $pa)
+        }
+
         if ($coroutine instanceof \Generator) {
             $task = new Task($coroutine, $context, $taskId, $parentTask);
             $task->run();
