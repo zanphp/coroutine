@@ -1,7 +1,10 @@
 {
   "name": "zanphp/coroutine",
+  "repositories": {
+  },
   "require": {
     "php": ">=5.6",
+    "zanphp/timer": "dev-master",
     "zanphp/exception": "dev-master"
   },
   "autoload": {

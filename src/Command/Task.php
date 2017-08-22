@@ -1,12 +1,12 @@
 <?php
 
-use Zan\Framework\Foundation\Contract\Resource;
-use Zan\Framework\Foundation\Coroutine\Parallel;
-use Zan\Framework\Foundation\Coroutine\Signal;
-use Zan\Framework\Foundation\Coroutine\SysCall;
-use Zan\Framework\Foundation\Coroutine\Task;
-use Zan\Framework\Network\Server\Timer\Timer;
 use ZanPHP\Coroutine\CallCC;
+use ZanPHP\Coroutine\Contract\Resource;
+use ZanPHP\Coroutine\Parallel;
+use ZanPHP\Coroutine\Signal;
+use ZanPHP\Coroutine\SysCall;
+use ZanPHP\Coroutine\Task;
+use ZanPHP\Timer\Timer;
 
 function taskSleep($ms)
 {
