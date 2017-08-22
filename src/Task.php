@@ -17,7 +17,7 @@ class Task
     public static function execute($coroutine, Context $context = null, $taskId = 0, Task $parentTask = null)
     {
         if (is_callable($coroutine)) {
-            return static::execute($coroutine(), $context, $taskId, $pa)
+            return static::execute($coroutine(), $context, $taskId, $parentTask);
         }
 
         if ($coroutine instanceof \Generator) {
