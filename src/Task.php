@@ -23,7 +23,8 @@ class Task
         if ($coroutine instanceof \Generator) {
             $task = new Task($coroutine, $context, $taskId, $parentTask);
             // 这里应该使用defer方式运行!!!, 这样才有机会先绑定task事件,才开始迭代, swoole_event_defer()有问题
-            swoole_timer_after(1, function() use($task) { $task->run(); });
+//            swoole_timer_after(1, function() use($task) { $task->run(); });
+            $task->run();
             return $task;
         }
 
