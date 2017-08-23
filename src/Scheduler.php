@@ -37,7 +37,6 @@ class Scheduler
         $signal = $this->handleTaskStack($value);
         if ($signal !== null) return $signal;
 
-
         $signal = $this->checkTaskDone($value);
         if ($signal !== null) return $signal;
 
@@ -60,6 +59,7 @@ class Scheduler
             if (null !== $parent && $parent instanceof Task) {
                 $parent->sendException($e);
             } else {
+                // FIX 这里直接抛出去 Task::catchCoroutine 兜底
                 $this->task->getCoroutine()->throw($e);
             }
             return;
@@ -184,8 +184,7 @@ class Scheduler
         if ($status === Signal::TASK_KILLED || $status === Signal::TASK_DONE) {
             // 兼容PHP7 & PHP5
             if ($t instanceof \Throwable || $t instanceof \Exception) {
-                sys_echo("Uncaught Exception");
-                echo_exception($t);
+                sys_echo("Uncaught " . get_class($t) . ": " .  $t->getMessage());
             }
             return true;
         }

@@ -22,8 +22,8 @@ class Task
 
         if ($coroutine instanceof \Generator) {
             $task = new Task($coroutine, $context, $taskId, $parentTask);
-            $task->run();
-
+            // 这里应该使用defer方式运行!!!, 这样才有机会先绑定task事件,才开始迭代, swoole_event_defer()有问题
+            swoole_timer_after(1, function() use($task) { $task->run(); });
             return $task;
         }
 
@@ -32,7 +32,7 @@ class Task
 
     public function __construct(\Generator $coroutine, Context $context = null, $taskId = 0, Task $parentTask = null)
     {
-        $this->coroutine = $coroutine;
+        $this->coroutine = $this->caughtCoroutine($coroutine);
         $this->taskId = $taskId ? $taskId : TaskId::create();
         $this->parentTask = $parentTask;
 
@@ -138,12 +138,62 @@ class Task
         return $this->parentTask;
     }
 
+    public function bindTaskDoneEvent(callable $callback)
+    {
+        $evtName = 'task_event_' . $this->taskId;
+        $this->context->getEvent()->bind($evtName, $callback,Event::ONCE_EVENT);
+    }
+
     public function fireTaskDoneEvent()
     {
         if (null === $this->context) {
             return;
         }
         $evtName = 'task_event_' . $this->taskId;
-        $this->context->getEvent()->fire($evtName, $this->sendValue);
+
+        // TaskDoneEvent 不能抛出异常, 否则死循环
+        try {
+            $this->context->getEvent()->fire($evtName, $this->sendValue);
+            return;
+        } catch (\Throwable $e) {
+        } catch (\Exception $e) {}
+        sys_echo("Uncaught " . get_class($e) . ": " .  $e->getMessage());
+    }
+
+    public function bindUncaughtExceptionEvent(callable $callback)
+    {
+        $evtName = 'task_event_ex_' . $this->taskId;
+        $this->context->getEvent()->bind($evtName, $callback,Event::ONCE_EVENT);
+    }
+
+    // taskDone 与 exception 应该使用一个回调, 但是fireEvent的参数设计有问题!!!
+    public function fireUncaughtExceptionEvent($e)
+    {
+        if (null === $this->context) {
+            return;
+        }
+
+        $doneEvtName = 'task_event_' . $this->taskId;
+        $this->context->getEvent()->unregister($doneEvtName);
+
+        $evtName = 'task_event_ex_' . $this->taskId;
+
+        try {
+            $this->context->getEvent()->fire($evtName, $e);
+            return;
+        } catch (\Throwable $e) {
+        } catch (\Exception $e) {}
+        sys_echo("Uncaught " . get_class($e) . ": " .  $e->getMessage());
+    }
+
+    private function caughtCoroutine(\Generator $gen)
+    {
+        try {
+            yield $gen;
+            return;
+        } catch (\Throwable $e) {
+        } catch (\Exception $e) {}
+        sys_echo("Uncaught " . get_class($e) . ": " .  $e->getMessage());
+        $this->fireUncaughtExceptionEvent($e);
     }
 }
