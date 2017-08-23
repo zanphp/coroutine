@@ -2,6 +2,7 @@
 
 use ZanPHP\Coroutine\CallCC;
 use ZanPHP\Coroutine\Contract\Resource;
+use ZanPHP\Coroutine\FutureTask;
 use ZanPHP\Coroutine\Parallel;
 use ZanPHP\Coroutine\Signal;
 use ZanPHP\Coroutine\SysCall;
@@ -152,4 +153,82 @@ function async(callable $callback)
 function callcc(callable $fun)
 {
     return new CallCC($fun);
+}
+
+function future($gen)
+{
+    if (is_callable($gen)) {
+        $gen = $gen();
+    }
+
+    if (!$gen instanceof \Generator) {
+        return null;
+    }
+
+    return new SysCall(function (Task $task) use($gen) {
+        $ctx = $task->getContext();
+        $future = new FutureTask($gen, $ctx, $task);
+        $task->send($future);
+        return Signal::TASK_CONTINUE;
+    });
+}
+
+
+if (! function_exists('sys_echo')) {
+    function sys_echo($context) {
+        $workerId = isset($_SERVER["WORKER_ID"]) ? $_SERVER["WORKER_ID"] : "";
+        $dataStr = date("Y-m-d H:i:s");
+        echo "[$dataStr #$workerId] $context\n";
+    }
+}
+
+if (! function_exists('sys_error')) {
+    function sys_error($context) {
+        $workerId = isset($_SERVER["WORKER_ID"]) ? $_SERVER["WORKER_ID"] : "";
+        $dataStr = date("Y-m-d H:i:s");
+        $context = str_replace("%", "%%", $context);
+        fprintf(STDERR, "[$dataStr #$workerId] $context\n");
+    }
+}
+
+if (! function_exists('echo_exception')) {
+    /**
+     * @param \Throwable $t
+     */
+    function echo_exception($t)
+    {
+        // 兼容PHP7 & PHP5
+        if ($t instanceof \Throwable || $t instanceof \Exception) {
+            $time = date('Y-m-d H:i:s');
+            $class = get_class($t);
+            $code = $t->getCode();
+            $msg = $t->getMessage();
+            $trace = $t->getTraceAsString();
+            $line = $t->getLine();
+            $file = $t->getFile();
+            $workerId = isset($_SERVER["WORKER_ID"]) ? $_SERVER["WORKER_ID"] : -1;
+            echo <<<EOF
+        
+        
+###################################################################################
+          \033[1;31mGot an exception\033[0m
+          worker: #$workerId
+          time: $time
+          class: $class
+          code: $code
+          message: $msg
+          file: $file::$line
+          
+$trace
+###################################################################################
+
+
+EOF;
+
+            if ($previous = $t->getPrevious()) {
+                echo "caused by:\n";
+                echo_exception($previous);
+            }
+        }
+    }
 }

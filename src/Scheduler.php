@@ -37,7 +37,6 @@ class Scheduler
         $signal = $this->handleTaskStack($value);
         if ($signal !== null) return $signal;
 
-
         $signal = $this->checkTaskDone($value);
         if ($signal !== null) return $signal;
 
@@ -60,6 +59,7 @@ class Scheduler
             if (null !== $parent && $parent instanceof Task) {
                 $parent->sendException($e);
             } else {
+                // FIX 这里直接抛出去 Task::catchCoroutine 兜底
                 $this->task->getCoroutine()->throw($e);
             }
             return;
