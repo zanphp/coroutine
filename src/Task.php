@@ -3,6 +3,8 @@
 namespace ZanPHP\Coroutine;
 
 
+use ZanPHP\Timer\Timer;
+
 class Task
 {
     protected $taskId = 0;
@@ -23,8 +25,10 @@ class Task
         if ($coroutine instanceof \Generator) {
             $task = new Task($coroutine, $context, $taskId, $parentTask);
             // 这里应该使用defer方式运行!!!, 这样才有机会先绑定task事件,才开始迭代, swoole_event_defer()有问题
-//            swoole_timer_after(1, function() use($task) { $task->run(); });
-            $task->run();
+            // master 不能使用定时器
+            if (swoole_timer_after(1, function() use($task) { $task->run(); }) === false) {
+                $task->run();
+            }
             return $task;
         }
 
