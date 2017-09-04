@@ -208,7 +208,7 @@ if (! function_exists('echo_exception')) {
             $file = $t->getFile();
             $metaData = "[]";
             if ($t instanceof \ZanPHP\Exception\ZanException) {
-                $metaData = json_encode($t->getMetadata());
+                $metaData = var_export($t->getMetadata(), true);
             }
             $workerId = isset($_SERVER["WORKER_ID"]) ? $_SERVER["WORKER_ID"] : -1;
             echo <<<EOF
@@ -222,7 +222,8 @@ if (! function_exists('echo_exception')) {
           code: $code
           message: $msg
           file: $file::$line
-          metaData: $metaData
+metaData:
+$metaData
           
 $trace
 ###################################################################################
