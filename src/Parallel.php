@@ -51,8 +51,6 @@ class Parallel
             $newTaskId = $childTask->getTaskId();
             $evtName = 'task_event_' . $newTaskId;
             $eventChain->before($evtName, $taskDoneEventName);
-
-
         }
 
         if ($this->childTasks == []) {
@@ -86,7 +84,13 @@ class Parallel
             $this->task->run();
         } else {
             $ex = ParallelException::makeWithResult($this->sendValues, $this->exceptions);
-            $this->task->getCoroutine()->throw($ex);
+            try {
+                $this->task->getCoroutine()->throw($ex);
+            } catch (\Throwable $t) {
+                $this->task->sendException($t);
+            } catch (\Exception $e) {
+                $this->task->sendException($e);
+            }
             $this->task->run();
         }
     }
