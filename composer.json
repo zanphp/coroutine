@@ -1,11 +1,5 @@
 {
   "name": "zanphp/coroutine",
-  "repositories": {
-    "packagist": {
-      "type": "composer",
-      "url": "http://packagist.qima-inc.com"
-    }
-  },
   "require": {
     "php": ">=5.6",
     "zanphp/timer": "dev-master",
