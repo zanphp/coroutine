@@ -3,7 +3,7 @@
 namespace ZanPHP\Coroutine\Exception;
 
 
-use Zan\Framework\Foundation\Exception\ZanException;
+use ZanPHP\Exception\ZanException;
 
 class ParallelException extends ZanException
 {
