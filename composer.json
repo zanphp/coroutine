@@ -1,11 +1,10 @@
 {
   "name": "zanphp/coroutine",
-  "repositories": {
-  },
   "require": {
     "php": ">=5.6",
     "zanphp/timer": "dev-master",
-    "zanphp/exception": "dev-master"
+    "zanphp/exception": "dev-master",
+    "zanphp/testing":"dev-master"
   },
   "autoload": {
     "psr-4": {
@@ -14,6 +13,11 @@
     "files": [
       "src/Command/Task.php"
     ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "ZanPHP\\Coroutine\\Tests\\": "tests"
+    }
   },
   "extra": {
     "branch-alias": {
