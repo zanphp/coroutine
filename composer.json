@@ -3,7 +3,9 @@
   "require": {
     "php": ">=5.6",
     "zanphp/timer": "dev-master",
-    "zanphp/exception": "dev-master",
+    "zanphp/exception": "dev-master"
+  },
+  "require-dev": {
     "zanphp/testing":"dev-master"
   },
   "autoload": {
