@@ -12,10 +12,10 @@ require __DIR__ . "/../vendor/autoload.php";
 Task::execute(function() {
     // "异步"执行
     /** @var \ZanPHP\Coroutine\FutureTask $future */
-    $future = yield future(function() {
+    $future = (yield future(function() {
         yield taskSleep(100);
         yield 42;
-    });
+    }));
 
     // ...
     // do something else
@@ -30,11 +30,11 @@ Task::execute(function() {
 // 延迟捕获异常
 Task::execute(function() {
     /** @var \ZanPHP\Coroutine\FutureTask $future */
-    $future = yield future(function() {
+    $future = (yield future(function() {
         yield taskSleep(1);
         echo "throw\n";
         throw new \Exception("Business Exception");
-    });
+    }));
 
     yield taskSleep(200);
 
@@ -53,16 +53,16 @@ Task::execute(function() {
 // 超时抛出异常
 Task::execute(function() {
     /** @var \ZanPHP\Coroutine\FutureTask $future */
-    $future = yield future(function() {
+    $future = (yield future(function() {
         yield taskSleep(100);
         yield 42;
 
-    });
+    }));
 
 
     // 获取结果支持超时, 超时抛异常
     try {
-        $r = yield $future->get(10);
+        $r = (yield $future->get(10));
         var_dump($r);
     } catch (\Throwable $t) {
         echo get_class($t), "\n";
@@ -75,11 +75,11 @@ Task::execute(function() {
     yield setContext("id", 42);
 
     /** @var \ZanPHP\Coroutine\FutureTask $future */
-    $future = yield future(function() {
+    $future = (yield future(function() {
         yield taskSleep(1);
         echo "get id: " . yield getContext("id"), "\n";
         yield setContext("name", "future");
-    });
+    }));
 
 
     try {
@@ -98,10 +98,10 @@ Task::execute(function() {
     yield setContext("id", 42);
 
     /** @var \ZanPHP\Coroutine\FutureTask $future */
-    $future = yield future(function() {
+    $future = (yield future(function() {
         yield taskSleep(200);
         throw new \Exception("超时之后抛异常");
-    });
+    }));
 
 
     try {
