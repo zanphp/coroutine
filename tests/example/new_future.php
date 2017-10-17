@@ -23,7 +23,7 @@ Task::execute(function() {
     // ...
 
     // "阻塞"等待结果
-    $r = yield $future->get();
+    $r = (yield $future->get());
     var_dump($r);
 });
 
