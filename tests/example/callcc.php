@@ -13,7 +13,7 @@ Task::execute(function() {
         if (!$r) {
             $cc(null);
         }
-    });
+    }));
 
     var_dump($ip);
-}));
+});
