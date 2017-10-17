@@ -41,7 +41,7 @@ Task::execute(function() {
     // 注意打印结果, 先抛出异常，然后调用get时异常才会被抛出
     // 如果不调用get, 异常会被吃掉...
     try {
-        $r = yield $future->get();
+        $r = (yield $future->get());
         var_dump($r);
     } catch (\Throwable $t) {
         echo "caught" . $t->getMessage(), "\n";
@@ -77,7 +77,7 @@ Task::execute(function() {
     /** @var \ZanPHP\Coroutine\FutureTask $future */
     $future = (yield future(function() {
         yield taskSleep(1);
-        echo "get id: " . yield getContext("id"), "\n";
+        echo "get id: " . (yield getContext("id")), "\n";
         yield setContext("name", "future");
     }));
 
@@ -85,7 +85,7 @@ Task::execute(function() {
     try {
         // future 内部set到ctx的值，是否能获取到看时序，未定义, get()到结果无异常时可以获取到的
         yield $future->get();
-        echo "get name ", yield getContext("name"), "\n";
+        echo "get name ", (yield getContext("name")), "\n";
     } catch (\Throwable $t) {
         echo get_class($t), "\n";
     }
