@@ -108,6 +108,11 @@ class Task
         return $this->context;
     }
 
+    public function getContextArray()
+    {
+        return $this->context->getAll();
+    }
+
     public function getSendValue()
     {
         return $this->sendValue;

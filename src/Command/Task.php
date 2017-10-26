@@ -99,6 +99,16 @@ function getContextObject()
     });
 }
 
+function getContextArray()
+{
+    return new SysCall(function (Task $task) {
+        $context = $task->getContextArray();
+        $task->send($context);
+
+        return Signal::TASK_CONTINUE;
+    });
+}
+
 function getTaskResult()
 {
     return new SysCall(function (Task $task) {

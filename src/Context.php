@@ -38,6 +38,11 @@ class Context
         $this->map[$key] = $value;
     }
 
+    public function getAll()
+    {
+        return $this->map;
+    }
+
     public function merge($ctx, $override = true)
     {
         if ($ctx instanceof static) {
